@@ -209,14 +209,8 @@
 
   .products-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 16px;
-  }
-  @media(max-width:640px){
-    .products-grid {
-      grid-template-columns: repeat(2, 1fr) !important;
-      gap: 10px;
-    }
   }
 
   /* PRODUCT CARD */
@@ -478,7 +472,7 @@
     .hero-3d { display: none; }
     .filter-inner { padding: 0 12px; }
     .products-wrap { padding: 16px 12px 48px; }
-    .products-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .card-body { padding: 10px 10px 12px; }
     .card-name { font-size: 12px; }
     .card-price { font-size: 14px; }
