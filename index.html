@@ -212,6 +212,12 @@
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 16px;
   }
+  @media(max-width:640px){
+    .products-grid {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 10px;
+    }
+  }
 
   /* PRODUCT CARD */
   .card {
@@ -465,15 +471,23 @@
   .foot-link:hover { color: var(--text); }
 
   @media(max-width:640px) {
-    .header-inner { padding: 0 16px; }
-    .hero-inner { padding: 32px 16px 28px; flex-direction: column; }
-    .hero-title { font-size: 32px; }
+    .header-inner { padding: 0 12px; }
+    .badge-free { display: none; }
+    .hero-inner { padding: 24px 16px 20px; flex-direction: column; }
+    .hero-title { font-size: 28px; letter-spacing: -1px; }
     .hero-3d { display: none; }
-    .filter-inner { padding: 0 16px; }
-    .products-wrap { padding: 20px 16px 48px; }
+    .filter-inner { padding: 0 12px; }
+    .products-wrap { padding: 16px 12px 48px; }
+    .products-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px; }
+    .card-body { padding: 10px 10px 12px; }
+    .card-name { font-size: 12px; }
+    .card-price { font-size: 14px; }
+    .card-add { opacity: 1 !important; transform: translateY(0) !important; width: 26px; height: 26px; font-size: 16px; }
     .cart-panel { width: 100%; right: -100%; }
     footer { padding: 20px 16px; }
     .foot-links { display: none; }
+    .hero-stats { flex-wrap: wrap; }
+    .hero-stat { padding: 12px 18px; }
   }
 </style>
 </head>
@@ -772,7 +786,22 @@ function submitOrder(){
   if(!Object.keys(cart).length){st('Sepetiniz boş!');return}
   const n=document.getElementById('oN').value.trim();
   const p=document.getElementById('oP').value.trim();
+  const a=document.getElementById('oA').value.trim();
   if(!n||!p){st('Ad soyad ve telefon zorunlu');return}
+  const items=Object.values(cart);
+  const total=items.reduce((s,i)=>s+i.price*i.qty,0);
+  let msg='🛍 *YENİ SİPARİŞ - NAKİS 3D*\n\n';
+  msg+='👤 *Müşteri:* '+n+'\n';
+  msg+='📞 *Telefon:* '+p+'\n';
+  if(a) msg+='📍 *Adres/Not:* '+a+'\n';
+  msg+='\n🧾 *Sipariş Detayı:*\n';
+  items.forEach(i=>{
+    msg+='• '+i.name+' x'+i.qty+' = '+(i.price*i.qty).toLocaleString('tr-TR')+' TL\n';
+  });
+  msg+='\n💰 *TOPLAM: '+total.toLocaleString('tr-TR')+' TL*';
+  const waNum='905528439036';
+  const waUrl='https://wa.me/'+waNum+'?text='+encodeURIComponent(msg);
+  window.open(waUrl,'_blank');
   cart={};uci();closeCart();
   ['oN','oP','oA'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('mo').classList.add('open');
